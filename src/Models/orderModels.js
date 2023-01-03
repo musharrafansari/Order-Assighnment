@@ -9,26 +9,19 @@ const orderSchema = new mongoose.Schema({
         required: true
     },
 
-    items: [{
-        productId: {
-            type: ObjectId,
-            ref: 'Product',
-            required: true
-        },
-
-        quantity: {
-            type: Number,
-            required: true,
-            min: 1
-        }
-    }],
-
-    totalPrice: {
-        type: Number,
+    productId: {
+        type: ObjectId,
+        ref: 'Product',
         required: true
     },
 
-    totalQuantity: {
+    quantity: {
+        type: Number,
+        required: true,
+        default: 1
+    },
+
+    totalPrice: {
         type: Number,
         required: true
     },

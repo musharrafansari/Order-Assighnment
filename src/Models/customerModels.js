@@ -19,28 +19,23 @@ const customerSchema=new mongoose.Schema({
         trim: true,
   
       },
-                                     
+      customerType: {
+        type:String,
+        default:"regular",
+        enum:["regular", "gold", "platinum"] 
+    },                         
       phone: {
         type: String,
         require: true,
         unique: true,
         trim: true
       },
-      password: {
-        type: String,
-        require: true,
-        trim: true,
-        min: 8,
-        max: 15
-      },                                       
-      shippingAddress: {
+                                           
+      Address: {
         type:String,
         required:true,
-      },
-      billingAddress: {
-          type:String,
-          required:true,
-        }
+      }
+      
       },
     { timestamps: true });
 

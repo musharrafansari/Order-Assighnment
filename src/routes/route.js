@@ -1,10 +1,14 @@
 const express = require('express')
-const router = express.Router()
 const customerController = require("../controllers/customerController")
-// const orderController = require("../controller/orderController")
-
+const productController=require('../controllers/productController')
+const orderController = require("../controllers/orderController")
+const router = express.Router()
 
 router.post('/createCustomer',customerController.createCustomer)
+
+router.post('/createProduct',productController.createProduct)
+
+router.put('/createOrder',orderController.createOrder)
 
 
 

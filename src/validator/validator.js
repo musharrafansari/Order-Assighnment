@@ -18,11 +18,11 @@ const isValidEmail = function(email) {
     return emailRegex.test(email.toLowerCase())
 }
 
-const isValidPassword = function(password) {
-    const passwordRegex = /^[a-zA-Z0-9@$!%*#?&]{8,15}$/
-    return passwordRegex.test(password)
-}
 
+const isValidtitle = (customertype) => {
+    return ["regular", "gold", "platinum"].indexOf(customertype) !== -1
+
+}
 const isValidAddress = function(address) {
         if (typeof address === 'undefined' || address === null) return false
         if (Object.keys(address).length === 0) return false
@@ -43,4 +43,11 @@ const isValidObjectId = function(ObjectId) {
     return mongoose.Types.ObjectId.isValid(ObjectId)
 }
 
-module.exports= { isValidName, isValidEmail, isValidPassword, isValidObjectId, isValidRequestBody, isValid, isValidAddress }
+module.exports= { 
+    isValidName, 
+    isValidEmail, 
+    isValidtitle, 
+    isValidObjectId, 
+    isValidRequestBody, 
+    isValid, 
+    isValidAddress }
