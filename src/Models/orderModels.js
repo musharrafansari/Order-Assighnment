@@ -25,6 +25,13 @@ const orderSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    totalOrder:{
+        type:Number
+    },
+    discount:{
+        type:Number,
+        default:0
+    }
 
 }, { timestamps: true });
 

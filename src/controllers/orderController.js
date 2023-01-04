@@ -6,7 +6,7 @@ const { isValidRequestBody, isValidObjectId } = require("../validator/validator"
 const createOrder = async function (req, res) {
     try {
         let data = req.body
-        const { customerId, productId,quantity,totalPrice} = data
+        const { customerId, productId,quantity,totalPrice,totalOrder,discount} = data
 
         if (!isValidRequestBody(data)) {
             return res.status(400).send({ status: false, message: "Data is required." })
@@ -26,37 +26,38 @@ const createOrder = async function (req, res) {
             return res.status(400).send({ status: false, msg: "productId not found." })
         }
 
-        let getQuantity=await orderModel.find({quantity:quantity})
        
-        quantity+=getQuantity.quantity
-        // totalPrice=quantity*checkProduct.price
+        totalPrice=quantity*checkProduct.price
         
+      
 
-            let saveOrder=await orderModel.create(data)
-            return res.status(201).send({status:true,msg:"Order created",data:saveOrder})
-     
-        // let checkQuantity = await orderModel.findById({ _id: customerId })
-        // if (checkQuantity.quantity==0 || checkQuantity.quantity <9) {
+        let numberOfOrders = await orderModel.find({ customerId:customerId })
+         totalOrder = numberOfOrders.length + 1
 
+        data.totalOrder = totalOrder
 
-        //     let update = await orderModel.findByIdAndUpdate({ _id: customerId }, { $inc: { quantity: +1 } }, { new: true,upsert:true})
-        //     return res.status(201).send({status: true, message: "Added one more product.", data: update
-        //     })
-        // }
-        // if (checkQuantity.quantity>= 9 && checkQuantity.quantity< 19) {
+        if (totalOrder == 10) {
+            await customerModel.findOneAndUpdate({ _id:customerId }, {  customerType: "Gold" }, { new: true })
+        }
 
-        //     let update = await orderModel.findByIdAndUpdate({ _id: customerId }, { $inc: { quantity: +1 } }, { new: true})
-        //     return res.status(201).send({
-        //         status: true, message: "Customer got 10% discount and becomes gold customerType.", data: update
-        //     })
-        // }
-        // if (checkQuantity.quantity>19) {
+        if (totalOrder > 10 && totalOrder < 20) {
+            discount = price * 10 / 100
+            totalPrice = totalPrice - discount
+        }
 
-        //     let update = await orderModel.findByIdAndUpdate({ _id: customerId }, { $inc: { quantity: +1 } }, { new: true})
-        //     return res.status(201).send({
-        //         status: true, message: "Customer got 20% discount and becomes platinum customerType.", data: update
-        //     })
-        // }
+        if (totalOrder == 20) {
+            await customerModel.findOneAndUpdate({ _id:customerId }, { customerType: "platinum" }, { new: true })
+        }
+        if (totalOrder > 20) {
+            discount = price * 20 / 100
+            totalPrice = totalPrice - discount
+        }
+        data.discount = discount
+        data.totalPrice = totalPrice
+
+        let saveOrder = await orderModel.create(data)
+        return res.status(201).send({status:true,msg:"order created.",saveOrder})
+        
 
     } catch (error) {
         res.status(500).send({ status: false, message: error.message })
