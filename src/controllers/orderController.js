@@ -43,6 +43,9 @@ const createOrder = async function (req, res) {
         if (totalOrder > 10 && totalOrder < 20) {
             discount = totalPrice * 10 / 100
             totalPrice = totalPrice - discount
+
+            data.discount = discount
+        data.totalPrice = totalPrice
         }
 
         if (totalOrder == 20) {
@@ -51,9 +54,12 @@ const createOrder = async function (req, res) {
         if (totalOrder > 20) {
             discount = price * 20 / 100
             totalPrice = totalPrice - discount
-        }
-        data.discount = discount
+
+            data.discount = discount
         data.totalPrice = totalPrice
+        }
+        // data.discount = discount
+        // data.totalPrice = totalPrice
 
         let saveOrder = await orderModel.create(data)
         return res.status(201).send({status:true,msg:"order created.",saveOrder})
