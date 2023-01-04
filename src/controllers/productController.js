@@ -27,12 +27,12 @@ const createProduct=async function(req,res){
         if(!(/^[a-zA-Z ]+$/.test(brand))){
             return res.status(400).send({status:false,msg:"Brand is not valid."})
         }
-        // if(price){
-        //     if(typeof price!=Number){return res.status(400).send({status:false,msg:"Price must be in number."})}
+        if(!price)
+            {return res.status(400).send({status:false,msg:"Price must be in number."})}
         
-        // }
+        
         const saveProduct=await productModels.create(data)
-        res.status(201).send({status:true,msg:"successfilly product created.",saveProduct})
+        res.status(201).send({status:true,msg:"successfully product created.",saveProduct})
     } catch (error) {
         res.status(500).send({ status: false, message: error.message })
     }
