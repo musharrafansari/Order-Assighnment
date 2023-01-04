@@ -6,7 +6,7 @@ const { isValidRequestBody, isValidObjectId } = require("../validator/validator"
 const createOrder = async function (req, res) {
     try {
         let data = req.body
-        const { customerId, productId,quantity,totalPrice,totalOrder,discount} = data
+        let { customerId, productId,quantity,totalPrice,totalOrder,discount} = data
 
         if (!isValidRequestBody(data)) {
             return res.status(400).send({ status: false, message: "Data is required." })
@@ -41,7 +41,7 @@ const createOrder = async function (req, res) {
         }
 
         if (totalOrder > 10 && totalOrder < 20) {
-            discount = price * 10 / 100
+            discount = totalPrice * 10 / 100
             totalPrice = totalPrice - discount
         }
 
