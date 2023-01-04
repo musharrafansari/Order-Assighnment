@@ -21,8 +21,7 @@ const customerSchema=new mongoose.Schema({
       },
       customerType: {
         type:String,
-        default:"regular",
-        enum:["regular", "gold", "platinum"] 
+        default:"regular"
     },                         
       phone: {
         type: String,

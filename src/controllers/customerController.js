@@ -47,12 +47,12 @@ const createCustomer = async function (req, res) {
             return res.status(409).send({ status: false, message: 'Phone Number Already Present' });
         }
 
-        if (!isValid(customerType)) {
-            return res.status(400).send({ status: false, message: "customerType must be present" })
-        }
-        if (!isValidtitle(customerType)) {
-            return res.status(400).send({ status: false, message: 'customerType should be among "regular", "gold", "platinum"' })
-        }
+        // if (!isValid(customerType)) {
+        //     return res.status(400).send({ status: false, message: "customerType must be present" })
+        // }
+        // if (!isValidtitle(customerType)) {
+        //     return res.status(400).send({ status: false, message: 'customerType should be among "regular", "gold", "platinum"' })
+        // }
 
         if (!isValid(Address)) {
             return res.status(400).send({ status: false, message: "  Address must be present." })
