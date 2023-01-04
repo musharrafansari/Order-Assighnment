@@ -6,7 +6,7 @@ const { isValidRequestBody, isValidObjectId } = require("../validator/validator"
 const createOrder = async function (req, res) {
     try {
         let data = req.body
-        const { customerId, productId,quantity} = data
+        const { customerId, productId,quantity,totalPrice} = data
 
         if (!isValidRequestBody(data)) {
             return res.status(400).send({ status: false, message: "Data is required." })
@@ -26,15 +26,22 @@ const createOrder = async function (req, res) {
             return res.status(400).send({ status: false, msg: "productId not found." })
         }
 
-        // let checkQuantity = await orderModel.findById({ _id: customerId })
-        // if (checkQuantity.quantity==0 || checkQuantity.quantity <9) {
+        let getQuantity=await orderModel.find({quantity:quantity})
+       
+        quantity+=getQuantity.quantity
+        // totalPrice=quantity*checkProduct.price
+        
 
             let saveOrder=await orderModel.create(data)
             return res.status(201).send({status:true,msg:"Order created",data:saveOrder})
+     
+        // let checkQuantity = await orderModel.findById({ _id: customerId })
+        // if (checkQuantity.quantity==0 || checkQuantity.quantity <9) {
 
-            // let update = await orderModel.findByIdAndUpdate({ _id: customerId }, { $inc: { quantity: +1 } }, { new: true,upsert:true})
-            // return res.status(201).send({status: true, message: "Added one more product.", data: update
-            // })
+
+        //     let update = await orderModel.findByIdAndUpdate({ _id: customerId }, { $inc: { quantity: +1 } }, { new: true,upsert:true})
+        //     return res.status(201).send({status: true, message: "Added one more product.", data: update
+        //     })
         // }
         // if (checkQuantity.quantity>= 9 && checkQuantity.quantity< 19) {
 
@@ -47,7 +54,7 @@ const createOrder = async function (req, res) {
 
         //     let update = await orderModel.findByIdAndUpdate({ _id: customerId }, { $inc: { quantity: +1 } }, { new: true})
         //     return res.status(201).send({
-        //         status: true, message: "Customer got 200% discount and becomes platinum customerType.", data: update
+        //         status: true, message: "Customer got 20% discount and becomes platinum customerType.", data: update
         //     })
         // }
 
